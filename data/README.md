@@ -6,7 +6,7 @@
 - `reference/published_targets.csv`: independently transcribed Tables 1–4, with each cell's precision or p-value threshold.
 - `derived/`: regenerated analytic panels in CSV/RDS and enrollment first differences.
 
-Treat raw data as immutable. Source paths and SHA-256 checksums are recorded in [the import manifest](../staging/manifest.csv); its paths were updated when primary inputs moved here. Unused archival alternatives remain under `staging/original/data/`.
+Treat raw data as immutable. Archive-relative source paths and SHA-256 checksums are recorded in the public [raw-input manifest](reference/source_manifest.csv). Local archival alternatives and the original staging manifest are excluded from distribution. The code license does not relicense these third-party inputs.
 
 The full prepared spending panel is saved as RDS before fitting; the exported spending CSV reflects the 2010–2015 estimation window and includes both retained and excluded states. Individual model samples are in `outputs/samples/`. See the [audit](../docs/reference/replication-audit.md) for variable construction and sample restrictions.
 

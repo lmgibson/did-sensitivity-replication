@@ -2,7 +2,7 @@
 
 Recovery date: 2026-11-08.
 
-The source archive is `/Users/landon/Desktop/personal/archive/graduate_school/`. Primary input copies are in `data/raw/`; historical scripts and alternate inputs remain in `staging/original/`. Source locations and checksums are recorded in [the staging manifest](../../staging/manifest.csv). The originals have not been moved or edited.
+The source archive is `/Users/landon/Desktop/personal/archive/graduate_school/`. Primary input copies are in `data/raw/`; historical scripts and alternate inputs remain in `staging/original/`. Public raw-input source locations and checksums are recorded in [the source manifest](../../data/reference/source_manifest.csv); the complete local staging manifest is not distributed. The originals have not been moved or edited.
 
 The numeric targets in [published_targets.csv](../../data/reference/published_targets.csv) were transcribed from Tables 1–4 of the archived manuscript, `submitted_papers/LG-FZ-Sensitivity-Diff-in-Diff.pdf`, and checked against the [published article](https://journals.sagepub.com/doi/full/10.1177/26320843211061306). The archived PDF is a submission manuscript, not the publisher's typeset edition. Its four tables agree with the publisher's displayed tables.
 

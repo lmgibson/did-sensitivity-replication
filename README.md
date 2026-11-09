@@ -1,4 +1,6 @@
-# Difference-in-difference sensitivity analysis
+# Difference-in-differences sensitivity analysis
+
+> **Recovered replication with documented discrepancies.** This repository reconstructs the analyses in Gibson & Zimmerman (2021) and records the reconciliation findings. It does not claim complete agreement with every published table entry.
 
 Code and documentation for sensitivity analysis of difference-in-difference estimates, building on Gibson and Zimmerman (2021) and Cinelli and Hazlett (2020).
 
@@ -73,3 +75,11 @@ staging/         Local archival materials (ignored by Git)
 See [how to reproduce the results](docs/how-to-guides/reproduce-results.md) and the [documentation index](docs/README.md).
 
 Active R scripts and generated data use descriptive `snake_case` filenames. Entry points name the task, model files name the example, and table exports include both the published table number and their contents. Raw inputs and archived material retain their source filenames for provenance.
+
+## License and citation
+
+The project's original code and associated documentation are available under the [MIT license](LICENSE). Third-party datasets, imported material, and dependencies retain their own licenses and terms; the MIT grant does not relicense them. The local archival staging directory is excluded from the public Git history.
+
+When using these materials, cite Gibson and Zimmerman (2021), [doi:10.1177/26320843211061306](https://doi.org/10.1177/26320843211061306), and identify the code version or commit used. Cite Cinelli and Hazlett (2020), [doi:10.1111/rssb.12348](https://doi.org/10.1111/rssb.12348), for the underlying sensitivity method. Machine-readable metadata is in [CITATION.cff](CITATION.cff). The repository has no software DOI or published release date assigned yet.
+
+The public [raw-input manifest](data/reference/source_manifest.csv) preserves archive-relative source locations and SHA-256 hashes without distributing the manuscript or alternate staging materials.

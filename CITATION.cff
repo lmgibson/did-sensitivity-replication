@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+type: software
+title: "Difference-in-differences sensitivity analysis: replication and reconciliation"
+message: >-
+  Please cite Gibson and Zimmerman (2021) when using these replication materials,
+  cite Cinelli and Hazlett (2020) when discussing the underlying sensitivity
+  method, and identify the code version or commit used.
+authors:
+  - family-names: Gibson
+    given-names: Landon
+version: 0.1.0
+license: MIT
+abstract: >-
+  Recovered replication and reconciliation materials for Gibson and Zimmerman
+  (2021). Includes the documented ACS-income and revenue-per-capita spending
+  specifications, enrollment analyses, sensitivity calculations, and numerical
+  regression checks. Remaining reporting discrepancies are explicitly documented.
+keywords:
+  - difference-in-differences
+  - sensitivity analysis
+  - replication
+  - reproducible research
+  - Medicaid
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Gibson
+      given-names: Landon
+    - family-names: Zimmerman
+      given-names: Frederick
+  title: "Measuring the sensitivity of difference-in-difference estimates to the parallel trends assumption"
+  journal: "Research Methods in Medicine & Health Sciences"
+  year: 2021
+  volume: 2
+  issue: 4
+  start: 148
+  end: 156
+  doi: 10.1177/26320843211061306
+references:
+  - type: article
+    authors:
+      - family-names: Cinelli
+        given-names: Carlos
+      - family-names: Hazlett
+        given-names: Chad
+    title: "Making sense of sensitivity: extending omitted variable bias"
+    journal: "Journal of the Royal Statistical Society: Series B (Statistical Methodology)"
+    year: 2020
+    volume: 82
+    issue: 1
+    start: 39
+    end: 67
+    doi: 10.1111/rssb.12348

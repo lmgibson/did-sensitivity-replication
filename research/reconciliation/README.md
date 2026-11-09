@@ -21,3 +21,5 @@ The directory has a scoped `jarl.toml` because the repository's root include lis
 air format research/reconciliation
 jarl check research/reconciliation/*.R
 ```
+
+A [follow-up provenance investigation](../../docs/reference/table2-provenance-recovery.md) reconstructs the archived revenue-per-capita covariate. Run `Rscript --vanilla research/reconciliation/recover_revenue_benchmark.R` to reproduce its actual regression and 20/24 direct (22/24 with intermediate rounding) Table 2 comparisons. This optional reconstruction does not replace the default analysis.

@@ -2,6 +2,8 @@
 
 Research date: 2026-11-08. Baseline: `18249af`. Isolated branch: `research/reconcile-published-tables`.
 
+**Follow-up:** [archived revenue-per-capita reconstruction](table2-provenance-recovery.md) subsequently recovered a source-supported Table 2 fit. The initial findings below remain a record of the first investigation; its statement that no alternative fit was recovered is superseded by that follow-up.
+
 The archived final spending specification still does **not** reproduce Table 2. The maintained comparison remains **2/24 cells** for Table 2 and **11/12 cells** for Table 3. This investigation identifies reporting inconsistencies and rules out the tested historical sensemakr releases as their cause. It does not recover a different final regression or change the replication baseline.
 
 Three kinds of evidence are kept separate:

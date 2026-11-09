@@ -5,13 +5,13 @@ Code and documentation for sensitivity analysis of difference-in-difference esti
 ## Run the replication
 
 ```sh
-Rscript --vanilla scripts/setup_environment.R
+Rscript --vanilla scripts/run_replication.R setup
 Rscript --vanilla scripts/run_replication.R
 ```
 
 Install **R 4.5.0** first. Setup restores the exact package versions in `renv.lock` into an isolated project library. The entry point runs the [`targets` workflow](_targets.R), rebuilding outdated steps and reusing current results. Tables 1 and 4 match at reported precision. The source-supported revenue model matches 20/24 Table 2 cells directly, or 22/24 with separately exported intermediate log rounding; two p-values remain discrepant. Table 3 retains one effect-entry discrepancy. See the [replication audit](docs/reference/replication-audit.md).
 
-Inspect the workflow with `targets::tar_visnetwork()` from R, or save an interactive graph with `Rscript --vanilla scripts/view_workflow.R`. See [how the workflow fits together](docs/explanation/workflow.md).
+Inspect the workflow with `targets::tar_visnetwork()` from R, or save an interactive graph with `Rscript --vanilla scripts/run_replication.R graph`. See [how the workflow fits together](docs/explanation/workflow.md).
 
 Check that code changes preserve the recovered baseline exactly:
 
@@ -19,7 +19,13 @@ Check that code changes preserve the recovered baseline exactly:
 Rscript --vanilla tests/check_regression.R
 ```
 
-Check the integrated revenue reconstruction with `Rscript --vanilla tests/check_reconciliation.R`. Check caching, file tracking, and output recovery with `Rscript --vanilla tests/check_workflow.R`. The original exact-regression command explicitly replays the ACS baseline; fixtures are unchanged.
+The regression suite checks both the original ACS baseline and the integrated revenue reconstruction. Run all numerical and workflow checks through the same entry point:
+
+```sh
+Rscript --vanilla scripts/run_replication.R check
+```
+
+The command also accepts `setup`, `graph`, and `diagnose`; no argument runs the analysis. Use `--help` for the available commands. Original fixtures remain unchanged.
 
 The current lockfile includes dependency updates verified against the frozen baseline. R remains pinned to 4.5.0: an R 4.6.2 evaluation preserved the reported results but changed three comparison differences at about `1e-16`. See the [upgrade evaluation](docs/reference/package-upgrade-evaluation.md) for accepted versions and evidence.
 
@@ -50,16 +56,18 @@ renv.lock        Exact package versions and sources
 renv/            Environment activation and settings
 _targets.R       Central workflow definition and dependency graph
 src/data/        Input preparation
-src/analysis/    Spending/enrollment models and exploratory diagnostics
+src/analysis/    Spending and enrollment models
+src/output/      Shared writers for tables, panels, comparisons, and models
 src/validation/  Published-table comparisons and consistency checks
-scripts/         Setup and run entry points
-tests/           Exact regression checks and frozen pre-cleanup fixtures
+scripts/         One command entry point, environment activation, and module loader
+tests/           Numerical regression, workflow integration, and frozen fixtures
 data/raw/        Unmodified primary inputs
 data/reference/  Independently transcribed published targets
 data/derived/    Generated analytic datasets
 outputs/         Generated tables, diagnostics, model samples, and environment
 docs/            Divio tutorials, how-to guides, reference, and explanation
-staging/         Historical scripts, alternate inputs, manuscript, and provenance
+research/        Optional reconciliation investigations and their evidence
+staging/         Local archival materials (ignored by Git)
 ```
 
 See [how to reproduce the results](docs/how-to-guides/reproduce-results.md) and the [documentation index](docs/README.md).

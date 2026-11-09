@@ -17,9 +17,10 @@ run_replication <- function(
   } else {
     NULL
   }
+  published_targets <- read.csv(targets_file)
   comparisons <- compare_published_tables(
     replication_tables(spending, enrollment, spending_sensitivity),
-    read.csv(targets_file)
+    published_targets
   )
   validation <- validate_replication(
     spending,
@@ -34,7 +35,7 @@ run_replication <- function(
     validation,
     derived_dir
   )
-  analysis_files <- write_analysis_outputs(
+  analysis_files <- export_results(
     spending,
     enrollment,
     validation,
@@ -49,14 +50,14 @@ run_replication <- function(
         spending_sensitivity,
         spending,
         enrollment,
-        read.csv(targets_file),
+        published_targets,
         validation,
         output_dir,
         derived_dir
       )
     )
   }
-  comparison_files <- write_comparison_outputs(
+  comparison_files <- export_comparisons(
     comparisons,
     validation,
     output_dir

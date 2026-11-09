@@ -9,9 +9,10 @@ root <- dirname(dirname(normalizePath(script)))
 setwd(root)
 source("scripts/activate_environment.R")
 source("scripts/load_modules.R")
+source("research/reconciliation/diagnose_spending_bounds.R")
 source("tests/helpers.R")
 if (!requireNamespace("targets", quietly = TRUE)) {
-  stop("Run scripts/setup_environment.R first.")
+  stop("Run scripts/run_replication.R setup first.")
 }
 
 check_workflow <- function() {

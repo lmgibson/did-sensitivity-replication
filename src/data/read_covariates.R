@@ -114,3 +114,26 @@ read_ideology <- function(raw_dir) {
   ideology <- left_join(ideology, state_names, by = "State.Code")
   ideology[, c("state", "year", "inst6017_nom", "citi6016")]
 }
+
+# File boundaries for targets: return every input/output path explicitly.
+replication_input_files <- function(example, raw_dir = "data/raw") {
+  paths <- switch(
+    example,
+    shared = c(
+      "shared/state_unemployment.xls",
+      "shared/stateideology_v2018.xlsx"
+    ),
+    spending = c(
+      "spending/1991-2017 Exp Report Data - 031518.xlsx",
+      "spending/fy2017_fix.xlsx",
+      "spending/state.codes.xlsx",
+      sprintf("spending/aff_download/ACS_%02d_1YR_B19301_with_ann.csv", 10:15),
+      "shared/us_1969_2017_19ages_adjusted",
+      "shared/state_abbr.xlsx",
+      "shared/staadata.txt"
+    ),
+    enrollment = sprintf("enrollment/ACS_%02d_1YR_B27016_with_ann.csv", 9:17),
+    stop("Unknown input group: ", example)
+  )
+  file.path(raw_dir, paths)
+}

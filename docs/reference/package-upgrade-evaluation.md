@@ -73,7 +73,7 @@ The Table 2 discrepancy and the Table 3 adjusted effect rounding to 7.69 rather 
 ## Repeat the evaluation
 
 1. Make an independent project copy, excluding generated outputs and local renv libraries, and preserve its initial lockfile.
-2. Install the declared R version and restore its environment with `scripts/setup_environment.R`.
+2. Install the declared R version and restore its environment with `scripts/run_replication.R setup`.
 3. Check available upgrades with `renv::update(check = TRUE)`. Also inspect recommended packages supplied by R; these may be omitted from the ordinary project-library update check.
 4. Update a coherent package batch and snapshot the candidate library. Restart R for tests so previously loaded namespaces cannot hide changes.
 5. Run `Rscript --vanilla tests/check_regression.R` and `Rscript --vanilla tests/check_workflow.R`. On failure, retain the outputs, compare values/attributes separately, and isolate the responsible changes. Preserve fixtures and thresholds.

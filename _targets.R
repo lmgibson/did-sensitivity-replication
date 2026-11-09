@@ -84,7 +84,7 @@ list(
   ),
   tar_target(
     analysis_files,
-    write_analysis_outputs(
+    export_results(
       spending_models,
       enrollment_models,
       validation,
@@ -109,7 +109,7 @@ list(
   ),
   tar_target(
     comparison_files,
-    write_comparison_outputs(
+    export_comparisons(
       comparisons,
       validation,
       workflow_paths$output_dir

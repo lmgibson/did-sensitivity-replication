@@ -46,7 +46,7 @@ The preparation commands explicitly reference their source-file targets because 
 
 The existing shell command, `Rscript --vanilla scripts/run_replication.R`, resolves the repository root and calls `targets::tar_make()`. In an R session at the root, `targets::tar_make()` does the same work. `targets::tar_read(spending_models)` retrieves a cached result; its list contains the Table 1 fitted models and original ACS-based sensitivity diagnostic. `targets::tar_read(spending_sensitivity)` retrieves the distinct revenue model, analytic panel, full-precision bounds, and reporting reconstruction for Table 2.
 
-`targets::tar_visnetwork(targets_only = TRUE)` displays the dependency graph. `scripts/view_workflow.R` saves an interactive HTML version. `targets::tar_outdated()` lists steps that need rebuilding.
+`targets::tar_visnetwork(targets_only = TRUE)` displays the dependency graph. `scripts/run_replication.R graph` saves an interactive HTML version. `targets::tar_outdated()` lists steps that need rebuilding.
 
 Targets caches intermediate objects in the ignored `_targets/` directory and skips current work. All generated analysis files are returned by file targets, so missing or edited exports are detected. Exports are currently grouped: deleting one table regenerates the analysis export group, while cached model fits are reused. The reconciliation exports form a separate group, so deleting a reporting output also reuses all cached model fits.
 
@@ -54,8 +54,10 @@ Installed package versions and R are recorded with the exports but do not automa
 
 ## Regression checks and optional work
 
-`src/run_replication.R` retains an uncached function for debugging and the independent exact regression check. Both orchestrators call the same preparation, modeling, validation, and export functions. `tests/check_regression.R` explicitly runs `table2_specification = "acs"` to preserve the original 18-file/seven-model contract. `tests/check_reconciliation.R` verifies the default revenue reconstruction against independent archival evidence and confirms the other models remain unchanged. `tests/check_workflow.R` verifies both contracts in the cached workflow: original ACS values are checked through their labeled diagnostic exports, while the primary Table 2 output is checked against revenue evidence. It also tests cache and file behavior.
+`src/run_replication.R` retains an uncached function for debugging and the independent exact regression check. Both orchestrators call the same preparation, modeling, validation, and export functions. `tests/check_regression.R` checks both the original ACS 18-file/seven-model contract and the default revenue reconstruction against independent archival evidence. `tests/check_workflow.R` verifies both contracts in the cached workflow: original ACS values are checked through their labeled diagnostic exports, while the primary Table 2 output is checked against revenue evidence. It also tests cache and file behavior.
 
 The exploratory spending-bounds diagnostics remain a separate command. They are not part of the default graph, so speculative variants do not become dependencies of the published-table replication.
 
 For isolated workflow tests or alternate export destinations, `_targets.R` reads `DID_RAW_DIR`, `DID_DERIVED_DIR`, `DID_OUTPUT_DIR`, and `DID_REFERENCE_FILE`. Normal use needs none of these variables. They change paths only, not the analysis specifications.
+
+The single command entry point accepts `setup`, `run` (the default), `graph`, `check`, and `diagnose`. Optional specification-search functions are loaded only by research commands or their regression checks. `scripts/activate_environment.R` remains separate because `.Rprofile`, the command entry point, and fresh test processes all need to activate the same pinned environment before loading analysis dependencies.

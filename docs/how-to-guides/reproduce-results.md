@@ -5,10 +5,10 @@
 Install **R 4.5.0** from [CRAN](https://cran.r-project.org/), then run from the repository root:
 
 ```sh
-Rscript --vanilla scripts/setup_environment.R
+Rscript --vanilla scripts/run_replication.R setup
 ```
 
-Setup bootstraps renv and restores the exact versions recorded in `renv.lock`, including sensemakr 0.1.6. `DESCRIPTION` declares direct runtime dependencies and optional editor/environment tools; `scripts/dependencies.R` reads the runtime list from it. The lockfile includes these dependencies and their transitive requirements. The local library is isolated from the system library and excluded from version control; renv uses a shared package cache to avoid unnecessary copies.
+Setup bootstraps renv and restores the exact versions recorded in `renv.lock`, including sensemakr 0.1.6. `DESCRIPTION` declares direct runtime dependencies and optional editor/environment tools; `scripts/load_modules.R` reads the runtime list from it. The lockfile includes these dependencies and their transitive requirements. The local library is isolated from the system library and excluded from version control; renv uses a shared package cache to avoid unnecessary copies.
 
 `.R-version`, `DESCRIPTION`, and `renv.lock` specify R 4.5.0. The entry points reject a different R version before loading the project environment. renv restores packages but does not install R; `.R-version` is a version declaration for humans and compatible tooling, not an automatic installer. Native system libraries may still be needed when restoring compiled packages on another platform.
 
@@ -51,7 +51,7 @@ The original ACS Table 2 output and its full comparison remain under `outputs/di
 After a full run, execute from the repository root:
 
 ```sh
-Rscript --vanilla scripts/diagnose_spending_bounds.R
+Rscript --vanilla scripts/run_replication.R diagnose
 ```
 
 This separate exploratory script preserves the original ACS-based window and calendar/fiscal-year LFP checks; it does not replace the promoted revenue-based Table 2 reconstruction. It writes `outputs/diagnostics/spending_sensitivity_diagnostics.csv` and does not alter the canonical models or reference targets.
@@ -66,13 +66,11 @@ The checks explicitly replay the original ACS baseline (`run_replication(table2_
 
 This is separate from comparison with the paper: the recovery baseline intentionally contains the documented Table 2/3 discrepancies. See [the fixture notes](../../tests/README.md). The test does not overwrite normal outputs or update fixtures automatically.
 
-Check the integrated default reconstruction independently:
+The same suite then checks the integrated default revenue reconstruction against independent archival evidence, including the 20/24 direct and 22/24 reporting comparisons, saved model/data exports, and unchanged seven original models. Run both numerical and cached workflow checks together with:
 
 ```sh
-Rscript --vanilla tests/check_reconciliation.R
+Rscript --vanilla scripts/run_replication.R check
 ```
-
-This checks the revenue Table 2 CSV against the independently recovered evidence, confirms the 20/24 direct and 22/24 reporting comparisons and unchanged seven original models, and verifies saved model/data exports. The workflow test below exercises the same checks with targets caching.
 
 ## Lint the maintained code
 
@@ -125,7 +123,7 @@ targets::tar_read(spending_models)
 For an HTML graph you can open outside an R editor:
 
 ```sh
-Rscript --vanilla scripts/view_workflow.R
+Rscript --vanilla scripts/run_replication.R graph
 ```
 
 This saves `outputs/diagnostics/workflow_graph.html` and its companion asset directory. Keep them together. See the [workflow explanation](../explanation/workflow.md) for the full structure.

@@ -1,5 +1,5 @@
 # Tutorials
 
-Guided lessons for learning the project through worked examples.
+- [Run your first replication](first-replication.md): set up a public checkout, generate the results, interpret the comparison counts, and inspect the workflow.
 
-Planned: run a first difference-in-difference sensitivity analysis.
+For focused command instructions, use the [reproduction guide](../how-to-guides/reproduce-results.md).

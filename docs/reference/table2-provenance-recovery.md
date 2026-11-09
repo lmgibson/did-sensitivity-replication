@@ -2,9 +2,11 @@
 
 Investigation date: 2026-11-08. This follows the [initial reconciliation research](table-reconciliation.md). It provides a source-supported regression reconstruction, stronger than the initial curve inferred from printed targets. The reviewed revenue reconstruction is now integrated as the default Table 2 model; Table 1 retains ACS income. Historical fixtures remain unchanged.
 
+Archive-relative manuscript and script paths below identify local recovery sources, which are not distributed. Their hashes and extracted evidence are committed; the research commands and default workflow use the committed raw inputs without needing the local archive.
+
 ## Main finding
 
-The archived spending code retains two different constructions of the covariate named `pc_inc`:
+The original archived spending code retains two different constructions of the covariate named `pc_inc`:
 
 ```r
 # Earlier construction, commented in the surviving script:
@@ -78,11 +80,11 @@ With the pinned project environment restored, run:
 Rscript --vanilla research/reconciliation/recover_revenue_benchmark.R
 ```
 
-The script recomputes the panel from raw inputs, substitutes only the commented covariate construction, and calls the maintained spending analysis. It writes fitted-model parameters, bounds, direct/intermediate-rounding cell comparisons, and a research fitted object under ignored `outputs/diagnostics/provenance/`. The small committed CSVs are evidence snapshots, not canonical fixtures. [Source hashes](../../research/reconciliation/evidence/table_lineage_sources.csv) identify the local archive documents.
+The script recomputes the panel from raw inputs, substitutes only the commented covariate construction, and calls the maintained spending analysis. It writes fitted-model parameters, bounds, direct/intermediate-rounding cell comparisons, and a research fitted object under ignored `outputs/diagnostics/provenance/`. The small committed CSVs record the independent reconstruction. Three revenue snapshots are now used by regression checks for the promoted model; they do not replace the original ACS fixtures. [Source hashes](../../research/reconciliation/evidence/table_lineage_sources.csv) identify the local archive documents.
 
 The research script passes Air and Jarl, and its results and match counts were independently recomputed by the Astra reviewer. It established the evidence subsequently used to integrate `fit_spending_sensitivity()` into the cleaned analysis. No raw data, published targets, root dependency lockfile, or frozen fixture was changed. The original ACS baseline is tested explicitly, while new reconciliation tests check the promoted revenue model against the independent evidence.
 
-## Recommended disposition
+## Current integration and remaining questions
 
 Following review, the default workflow now uses the revenue reconstruction for Table 2 and the ACS model for Table 1, with both constructions labeled in `model_specifications.csv`. The primary Table 2 comparison is 20/24; the separately exported reporting-path comparison is 22/24. The original ACS Table 2 diagnostic and its 2/24 comparison remain available and byte-exact against the original baseline.
 

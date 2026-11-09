@@ -42,11 +42,29 @@ The actual workflow has 17 targets:
 
 The preparation commands explicitly reference their source-file targets because the underlying readers accept a directory. Those references are essential: tracking the directory name alone would not detect edits to file contents. Shared labor and ideology changes invalidate both examples. Enrollment-only input changes invalidate the enrollment branch; changes to the reference table affect comparison/validation and downstream exports without refitting models.
 
+## How the tables map to the models
+
+The overview above groups the export targets; the generated interactive graph shows all 17 targets individually. The scientific distinction between the two spending constructions is:
+
+```mermaid
+flowchart TD
+  P["Prepared spending panel"] --> A["ACS personal income per capita"]
+  P --> R["NASBO revenue per capita"]
+  A --> T1["Table 1: 16/16 matches"]
+  A --> OLD["Original Table 2 diagnostic: 2/24 matches"]
+  R --> T2["Table 2 full precision: 20/24 matches"]
+  T2 --> ROUND["Separate log-rounding hypothesis: 22/24 matches"]
+  E["Enrollment first differences"] --> T3["Table 3: 11/12 matches"]
+  E --> T4["Table 4: 12/12 matches"]
+```
+
+Counts compare cells at their published precision; they do not imply every model assumption is verified. The Table 2 reporting path changes only the percent-effect presentation. The two p-values and the Table 3 effect-entry discrepancy remain documented in the [audit](../reference/replication-audit.md).
+
 ## Commands and caching
 
 The existing shell command, `Rscript --vanilla scripts/run_replication.R`, resolves the repository root and calls `targets::tar_make()`. In an R session at the root, `targets::tar_make()` does the same work. `targets::tar_read(spending_models)` retrieves a cached result; its list contains the Table 1 fitted models and original ACS-based sensitivity diagnostic. `targets::tar_read(spending_sensitivity)` retrieves the distinct revenue model, analytic panel, full-precision bounds, and reporting reconstruction for Table 2.
 
-`targets::tar_visnetwork(targets_only = TRUE)` displays the dependency graph. `scripts/run_replication.R graph` saves an interactive HTML version. `targets::tar_outdated()` lists steps that need rebuilding.
+`targets::tar_visnetwork(targets_only = TRUE)` displays the dependency graph. `Rscript --vanilla scripts/run_replication.R graph` saves an interactive HTML version. `targets::tar_outdated()` lists steps that need rebuilding.
 
 Targets caches intermediate objects in the ignored `_targets/` directory and skips current work. All generated analysis files are returned by file targets, so missing or edited exports are detected. Exports are currently grouped: deleting one table regenerates the analysis export group, while cached model fits are reused. The reconciliation exports form a separate group, so deleting a reporting output also reuses all cached model fits.
 

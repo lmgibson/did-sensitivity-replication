@@ -19,4 +19,4 @@ All output writers live together and share a CSV writer; thin wrappers around ex
 
 Legacy analytic column names are preserved at the data boundary. Table 2 adds a separately named `revenue_per_capita` field instead of overwriting the ACS `pc_inc`. The [audit](../docs/reference/replication-audit.md) documents the sample adaptation and other compatibility decisions.
 
-Optional specification searches live under `research/reconciliation/`, not in the normal module loader. Run them with `Rscript --vanilla scripts/run_replication.R diagnose`. Original source archives remain in ignored `staging/`.
+Optional specification searches live under `research/reconciliation/`, not in the normal module loader. Run them with `Rscript --vanilla scripts/run_replication.R diagnose`. The original recovery archive and ignored `staging/` are local-only and are not included or required in a public clone.

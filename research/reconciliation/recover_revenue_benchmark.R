@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 # Research reconstruction of the commented pre-ACS covariate in the archive.
-# This does not replace the canonical personal-income specification or fixtures.
+# Independently verifies the promoted revenue model in research-only outputs.
 args <- commandArgs(trailingOnly = FALSE)
 script <- sub("^--file=", "", args[grepl("^--file=", args)])
 if (length(script) != 1) {

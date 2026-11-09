@@ -29,7 +29,7 @@ Rscript --vanilla scripts/run_replication.R check
 
 The command also accepts `setup`, `graph`, and `diagnose`; no argument runs the analysis. Use `--help` for the available commands. Original fixtures remain unchanged.
 
-The current lockfile includes dependency updates verified against the frozen baseline. R remains pinned to 4.5.0: an R 4.6.2 evaluation preserved the reported results but changed three comparison differences at about `1e-16`. See the [upgrade evaluation](docs/reference/package-upgrade-evaluation.md) for accepted versions and evidence.
+The current lockfile includes dependency updates verified against the frozen baseline. R remains pinned to 4.5.0: an R 4.6.2 evaluation of the original ACS baseline preserved its reported results but changed three comparison differences at about `1e-16`. The later revenue reconstruction was not part of that runtime experiment. See the [upgrade evaluation](docs/reference/package-upgrade-evaluation.md) for accepted versions and evidence.
 
 Lint maintained R code with [Jarl](https://jarl.etiennebacher.com/):
 
@@ -69,10 +69,10 @@ data/derived/    Generated analytic datasets
 outputs/         Generated tables, diagnostics, model samples, and environment
 docs/            Divio tutorials, how-to guides, reference, and explanation
 research/        Optional reconciliation investigations and their evidence
-staging/         Local archival materials (ignored by Git)
+staging/         Optional local archive (not included in public clones)
 ```
 
-See [how to reproduce the results](docs/how-to-guides/reproduce-results.md) and the [documentation index](docs/README.md).
+Start with the [first replication tutorial](docs/tutorials/first-replication.md), use [how to reproduce the results](docs/how-to-guides/reproduce-results.md) for task instructions, or browse the [documentation index](docs/README.md).
 
 Active R scripts and generated data use descriptive `snake_case` filenames. Entry points name the task, model files name the example, and table exports include both the published table number and their contents. Raw inputs and archived material retain their source filenames for provenance.
 

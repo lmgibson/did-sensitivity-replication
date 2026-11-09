@@ -12,11 +12,26 @@ Setup bootstraps renv and restores the exact versions recorded in `renv.lock`, i
 
 `.R-version`, `DESCRIPTION`, and `renv.lock` specify R 4.5.0. The entry points reject a different R version before loading the project environment. renv restores packages but does not install R; `.R-version` is a version declaration for humans and compatible tooling, not an automatic installer. Native system libraries may still be needed when restoring compiled packages on another platform.
 
-Interactive R sessions started in the project load renv through `.Rprofile`. CLI entry points explicitly activate it too, including under `--vanilla`. The optional R language server is locked so Zed keeps working with the isolated library; its lintr dependency does not change the editor's selection of Jarl for diagnostics.
+Interactive R sessions started in the project load renv through `.Rprofile`. CLI entry points explicitly activate it too, including under `--vanilla`. The optional R language server is locked so Zed can use the isolated library. The accepted languageserver 0.3.21 removed the earlier lintr/styler dependencies; project settings select Jarl for diagnostics.
 
-To inspect the environment from R, run `renv::status()`. To intentionally change dependencies, update `DESCRIPTION`, install the desired versions with `renv::install()`, run both regression checks below, then call `renv::snapshot()`. Review the resulting lockfile changes. Explicit snapshot mode uses `DESCRIPTION`; development dependencies in `Suggests` are included through `snapshot.dev`.
+To inspect the environment from R, run `renv::status()`. To intentionally change dependencies, update `DESCRIPTION`, install the desired versions with `renv::install()`, run the numerical and workflow suites with `Rscript --vanilla scripts/run_replication.R check`, then call `renv::snapshot()`. Review the resulting lockfile changes. Explicit snapshot mode uses `DESCRIPTION`; development dependencies in `Suggests` are included through `snapshot.dev`.
 
 The lockfile preserves the currently verified environment. It does not resolve the documented discrepancies with the published tables or guarantee byte-identical numerical results across operating systems. The [package upgrade evaluation](../reference/package-upgrade-evaluation.md) records the accepted updates, the preserved original lockfile, and why R 4.6.2 is not yet the exact-reproduction runtime.
+
+## Command reference
+
+All commands use `Rscript --vanilla scripts/run_replication.R`:
+
+| Argument | Action |
+| --- | --- |
+| none, or `run` | Build outdated targets and export the analysis |
+| `setup` | Restore pinned packages with renv |
+| `graph` | Save the interactive dependency graph |
+| `check` | Run the numerical and workflow suites in fresh R processes |
+| `diagnose` | Run the optional ACS window/LFP search after generating panels |
+| `--help` | Print the accepted commands |
+
+A public clone includes the primary inputs; no local `staging/` archive is needed. Setup may download packages. Derived datasets, fitted models, comparisons, graphs, and caches are generated locally and ignored by Git.
 
 ## Run both examples
 
@@ -30,8 +45,10 @@ The run uses `_targets.R` to track raw/reference files, prepare both panels, fit
 
 ## Review the comparisons
 
-- [Summary](../../outputs/diagnostics/published_table_comparison_summary.csv): matching cells per table.
-- [Cell-level comparison](../../outputs/diagnostics/published_table_comparison.csv): published values, recovered values, differences, precision, and pass/fail flags.
+These files are generated locally by the analysis and are not committed or available as GitHub file links:
+
+- `outputs/diagnostics/published_table_comparison_summary.csv`: matching cells per table.
+- `outputs/diagnostics/published_table_comparison.csv`: published values, recovered values, differences, precision, and pass/fail flags.
 - [Replication audit](../reference/replication-audit.md): model specifications, adaptations, and unresolved issues.
 
 Tables 1 and 4 match at published precision. Table 2 now uses the source-supported revenue-per-capita model and matches 20/24 cells directly; the separate reporting reconstruction matches 22/24. Two p-values remain inconsistent. Table 3 has a small effect-entry discrepancy. The validation requires the established Table 1/4 matches, all Table 2 SE/t matches, sample sizes, unique state/year keys, valid enrollment percentages, and agreement between independently computed first-difference estimates and `plm`.
@@ -104,9 +121,9 @@ jarl check .
 Rscript --vanilla tests/check_regression.R
 ```
 
-For Zed, `.zed/settings.json` selects the installed `air` executable as the R formatter using Air's [documented stdin integration](https://posit-dev.github.io/air/cli.html#stdin). Zed's R extension is required for language recognition; it is installed on this machine. The project setting disables on-type formatting so the R language server does not compete with Air. Normal Zed formatting commands and its default format-on-save behavior use the selected formatter; global editor settings are unchanged.
+For Zed, `.zed/settings.json` selects the installed `air` executable as the R formatter using Air's [documented stdin integration](https://posit-dev.github.io/air/cli.html#stdin). Install Zed's R extension for language recognition. The project setting disables on-type formatting so the R language server does not compete with Air. Normal Zed formatting commands and its default format-on-save behavior use the selected formatter; global editor settings can override format-on-save preferences.
 
-Install the Jarl extension in Zed for editor diagnostics. This project enables both `jarl` and `r_language_server`: Jarl provides lint diagnostics, while the R language server provides completion, hover information, and navigation. The project sets `lsp.r_language_server.settings.r.lsp.diagnostics` to `false` to disable the R server’s default lintr diagnostics and avoid duplicate warnings. Both the R and Jarl extensions are installed on this machine.
+Install the Jarl extension in Zed for editor diagnostics. This project enables both `jarl` and `r_language_server`: Jarl provides lint diagnostics, while the R language server provides completion, hover information, and navigation. The project sets `lsp.r_language_server.settings.r.lsp.diagnostics` to `false` to disable the R server’s diagnostics and leave lint diagnostics to Jarl. Install both extensions and make the `air` and `jarl` executables available on Zed's PATH.
 
 ## Inspect and run the dependency graph
 

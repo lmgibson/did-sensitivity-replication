@@ -38,11 +38,11 @@ The checks require:
 - Both sensitivity-bound objects to match exactly.
 - Workflow caching, branch invalidation, and missing-output recovery to work.
 
-The [stage inventory](upgrade-evaluation/stages.csv), [final regression log](upgrade-evaluation/09_project_regression.log), [workflow log](upgrade-evaluation/09_project_workflow.log), and [remaining-update check](upgrade-evaluation/09_remaining_updates.log) preserve the evidence. The normal workflow was then fully invalidated and [rebuilt all 15 targets](upgrade-evaluation/09_project_run.log), refreshing the environment inventory. Existing warnings that some binaries were built under R 4.5.2 remain; both suites passed under R 4.5.0.
+The [stage inventory](upgrade-evaluation/stages.csv), [final regression log](upgrade-evaluation/09_project_regression.log), [workflow log](upgrade-evaluation/09_project_workflow.log), and [remaining-update check](upgrade-evaluation/09_remaining_updates.log) preserve the evidence. The normal workflow was then fully invalidated and [rebuilt all 15 targets](upgrade-evaluation/09_project_run.log), refreshing the environment inventory. That was before Table 2 integration; the current workflow has 17 targets. Existing warnings that some binaries were built under R 4.5.2 remain; both suites passed under R 4.5.0.
 
 ## R 4.6.2 candidate
 
-R 4.6.2 was obtained from the official CRAN macOS installer, whose developer signature and notarization were verified. Only its framework version was copied alongside the existing installation. The default R and framework `Current` link still point to R 4.5.0. The candidate was run using its explicit executable and `R_HOME`, in a second isolated project. No R GUI or installer postflight scripts were run.
+R 4.6.2 was obtained from the official CRAN macOS installer, whose developer signature and notarization were verified. Only its framework version was copied alongside the existing installation. During that experiment, the default R and framework `Current` link were left pointing to R 4.5.0. The candidate was run using its explicit executable and `R_HOME`, in a second isolated project. No R GUI or installer postflight scripts were run.
 
 The final candidate used **the same package names and versions as the accepted R 4.5.0 environment**, recorded in [r-4.6.2-candidate.lock](environments/r-4.6.2-candidate.lock). This controls package versions, though platform binaries and R builds can still differ.
 
@@ -57,9 +57,9 @@ See the [candidate regression log](upgrade-evaluation/08_r462_regression.log), [
 
 R 4.6.2 therefore preserves the reported scientific results in this evaluation but does **not** satisfy the current byte-exact contract. It is not the default supported runtime. No fixtures or test tolerances were changed to accept it.
 
-## Agreement with the paper
+## Agreement with the paper at the time of the upgrade audit
 
-The accepted environment and the R 4.6.2 candidate both retain the established comparison:
+At that stage, the accepted environment and R 4.6.2 candidate both retained the original ACS comparison. The current revenue-based Table 2 results are documented separately in the [replication audit](replication-audit.md):
 
 | Table | Matching numeric cells at published precision |
 | --- | --- |
@@ -68,12 +68,12 @@ The accepted environment and the R 4.6.2 candidate both retain the established c
 | 3 | 11 / 12 |
 | 4 | 12 / 12 |
 
-The Table 2 discrepancy and the Table 3 adjusted effect rounding to 7.69 rather than 7.70 remain unresolved. Upgrading dependencies did not resolve or worsen them. Exact baseline reproduction and complete reproduction of the published paper are separate claims; see the [replication audit](replication-audit.md).
+Those discrepancies were unresolved at the end of this package experiment. Upgrading dependencies did not resolve or worsen them; the later source-supported covariate reconstruction explains most Table 2 cells. The Table 3 adjusted effect still rounds to 7.69 rather than the printed 7.70. Exact baseline reproduction and complete reproduction of the published paper are separate claims; see the [replication audit](replication-audit.md).
 
 ## Repeat the evaluation
 
 1. Make an independent project copy, excluding generated outputs and local renv libraries, and preserve its initial lockfile.
-2. Install the declared R version and restore its environment with `scripts/run_replication.R setup`.
+2. Install the declared R version and restore its environment with `Rscript --vanilla scripts/run_replication.R setup`.
 3. Check available upgrades with `renv::update(check = TRUE)`. Also inspect recommended packages supplied by R; these may be omitted from the ordinary project-library update check.
 4. Update a coherent package batch and snapshot the candidate library. Restart R for tests so previously loaded namespaces cannot hide changes.
 5. Run `Rscript --vanilla tests/check_regression.R` and `Rscript --vanilla tests/check_workflow.R`. On failure, retain the outputs, compare values/attributes separately, and isolate the responsible changes. Preserve fixtures and thresholds.
@@ -82,4 +82,4 @@ The Table 2 discrepancy and the Table 3 adjusted effect rounding to 7.69 rather 
 
 For a historical baseline experiment, use R 4.5.0 in a separate project copy and restore with `renv::restore(lockfile = "docs/reference/environments/r-4.5.0-baseline.lock", prompt = FALSE)`. Preserve that copy's baseline lockfile as its root `renv.lock` so subsequent setup commands restore the same environment.
 
-This evaluation covers this project's exercised paths on this Mac. It does not establish that every feature of every updated package, or another operating system, behaves identically.
+This evaluation covers this project's exercised paths on the macOS recovery system. It does not establish that every feature of every updated package, or another operating system, behaves identically.

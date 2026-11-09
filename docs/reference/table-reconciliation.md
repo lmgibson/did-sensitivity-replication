@@ -1,10 +1,10 @@
-# Published Tables 2 and 3: reconciliation research
+# Initial Tables 2 and 3 investigation (historical)
 
 Research date: 2026-11-08. Baseline: `bbc6a73` (publication-cleaned history). Isolated branch: `research/reconcile-published-tables`.
 
 **Follow-up:** [archived revenue-per-capita reconstruction](table2-provenance-recovery.md) subsequently recovered a source-supported Table 2 fit. The initial findings below remain a record of the first investigation; its statement that no alternative fit was recovered is superseded by that follow-up. The revenue reconstruction is now integrated into the default cleaned analysis, with ACS results retained as baseline diagnostics.
 
-The archived final spending specification still does **not** reproduce Table 2. The maintained comparison remains **2/24 cells** for Table 2 and **11/12 cells** for Table 3. This investigation identifies reporting inconsistencies and rules out the tested historical sensemakr releases as their cause. It does not recover a different final regression or change the replication baseline.
+At this initial stage, the archived active ACS spending specification did **not** reproduce Table 2: the comparison was **2/24 cells** for Table 2 and **11/12 cells** for Table 3. The current default instead uses the subsequently recovered revenue model, matching 20/24 Table 2 cells directly or 22/24 with separately exported intermediate rounding. This investigation identifies reporting inconsistencies and rules out the tested historical sensemakr releases as their cause. The initial investigation did not recover a different regression or change the original baseline. Its unresolved-source conclusion was superseded by the linked provenance follow-up.
 
 Three kinds of evidence are kept separate:
 
@@ -16,7 +16,7 @@ Three kinds of evidence are kept separate:
 
 The targets were checked in the archived submission PDF, pages 9–11, and the [published article](https://journals.sagepub.com/doi/full/10.1177/26320843211061306). Both contain the same numbers. The article's paragraph introducing Table 2 describes an original effect of **−6.70%**, whereas its Table 1 final model reports **−6.58%**. This independent textual discrepancy is important evidence of a possible earlier or different fit.
 
-The source scripts are the staged spending `sommers_replication_dissertation.R`, `sommers_replication.R`, `sommers_replication_v2.R`, and enrollment `sens_mcaid_enroll.R`. The [replication audit](replication-audit.md) and staging manifest document their provenance. The staged files are archival material, not proof that the exact final publication workflow survived.
+The source scripts are the staged spending `sommers_replication_dissertation.R`, `sommers_replication.R`, `sommers_replication_v2.R`, and enrollment `sens_mcaid_enroll.R`. The [replication audit](replication-audit.md), public source hashes, and local staging manifest document their provenance. Staged manuscripts/scripts are not distributed or required by the research commands. The staged files are archival material, not proof that the exact final publication workflow survived.
 
 Run from the repository root with the pinned R 4.5.0 environment:
 
@@ -27,7 +27,7 @@ Rscript --vanilla research/reconciliation/check_historical_versions.R
 
 The first command recomputes the maintained models from raw inputs and writes the research diagnostics under ignored `outputs/diagnostics/reconciliation/`. The second downloads the three CRAN source archives and installs each into a separate ignored research library, running each version in a fresh process. Neither command changes the root lockfile, project package installations, raw data, canonical methods, published targets, or fixtures.
 
-The small committed [evidence snapshots](../../research/reconciliation/evidence/) preserve this run's key results. They are research outputs, not new regression-test expectations. The source-archive [manifest](../../research/reconciliation/evidence/historical_source_manifest.csv) includes URLs and SHA-256 hashes. Full intermediate objects, package libraries, source archives, and logs remain untracked.
+The small committed [evidence snapshots](../../research/reconciliation/evidence/) preserve this run's key results. The initial inverse-fit and historical-version snapshots are research outputs, not new regression-test expectations. Later revenue-model evidence is covered by the follow-up and is used by the current regression suite. The source-archive [manifest](../../research/reconciliation/evidence/historical_source_manifest.csv) includes URLs and SHA-256 hashes. Full intermediate objects, package libraries, source archives, and logs remain untracked.
 
 ## Table 2 has probability inconsistencies independent of the model
 
@@ -96,7 +96,7 @@ For example, the synthetic curve above gives:
 
 At the fitted t-curve parameters, the intervals of original SE implied by directly transformed effects do not all overlap; allowing the four-decimal intermediate log values creates an overlapping interval. This is a diagnostic of that fitted curve, not a proof excluding every conceivable calculation from the rounded table.
 
-The resulting [synthetic reporting example](../../research/reconciliation/evidence/table2_synthetic_reporting_example.csv), at **assumed df 231**, reproduces the six effect, six SE, six t, and four p cells at their displayed precision: **22/24 cells**. The .130 and .272 p cells remain inconsistent with that example. This **does not increase the archived-data replication count**, which stays 2/24. No saved original model or table-generation code establishes that this reporting pathway was used.
+The resulting [synthetic reporting example](../../research/reconciliation/evidence/table2_synthetic_reporting_example.csv), at **assumed df 231**, reproduces the six effect, six SE, six t, and four p cells at their displayed precision: **22/24 cells**. The .130 and .272 p cells remain inconsistent with that example. This **did not increase the archived-data replication count at this stage**, which stayed 2/24. The later source-supported revenue reconstruction is a distinct finding. No saved original model or table-generation code establishes that this reporting pathway was used.
 
 ## Tested historical sensemakr releases do not explain the discrepancy
 
@@ -134,10 +134,10 @@ The historical ACS income-band exception remains preserved exactly as documented
 
 The article attributes increasing precision to a large association with treatment and a small association with outcome. The recovered Table 4 bounds show the reverse: at 1× ideology, treatment R² is .0063683 and outcome R² is .0835506; at 10× they are .0636830 and .8361483. In the SE formula above, removing outcome residual variance lowers the SE, while removing treatment residual variance raises it. Thus the reproduced numerical pattern is consistent with the larger outcome association. This is a prose interpretation issue, independent of the unresolved Table 2 source fit or Table 3 rounding.
 
-## Review disposition and verification
+## Disposition at the initial investigation
 
-Retain the canonical estimates, comparison tolerances, and unresolved statuses. The new evidence supports a narrower diagnosis: Table 2 combines a curve consistent with an original effect rounding to −6.70%, a plausible intermediate log-rounding pathway, and at least one impossible reported t/p pairing. The recovered −6.58% model does not generate that curve. Table 3 is numerically close to a rounding boundary, but the original reporting operation is unknown.
+The initial recommendation was to retain the then-current estimates, comparison tolerances, and unresolved statuses. The later [provenance report](table2-provenance-recovery.md) records the recovered model and its integration. The new evidence supports a narrower diagnosis: Table 2 combines a curve consistent with an original effect rounding to −6.70%, a plausible intermediate log-rounding pathway, and at least one impossible reported t/p pairing. The recovered −6.58% model does not generate that curve. Table 3 is numerically close to a rounding boundary, but the original reporting operation is unknown.
 
-The useful next provenance target is the final Table 2 fitted object or table-generation source, including its actual sample and raw inputs. Searching arbitrary specifications solely to match the inferred parameters would not establish replication.
+At this stage, the proposed next provenance target was the final Table 2 fitted object or table-generation source, including its actual sample and raw inputs. Searching arbitrary specifications solely to match the inferred parameters would not establish replication.
 
 Both canonical checks passed in this worktree, with logs under `outputs/diagnostics/reconciliation/`: `tests/check_regression.R` and `tests/check_workflow.R`. The research scripts also completed successfully, were formatted with Air, and passed Jarl using their scoped configuration. No changes were made to canonical statistical code, raw inputs, frozen fixtures, published reference cells, root lockfile, or R-version pin.

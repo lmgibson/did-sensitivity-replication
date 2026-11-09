@@ -6,6 +6,8 @@ Description: Research workflow reproducing the spending and enrollment examples
     in Gibson and Zimmerman (2021), with sensitivity analysis based on
     Cinelli and Hazlett (2020). This is an analysis project, not an installable
     R package.
+URL: https://github.com/lmgibson/did-sensitivity-replication
+BugReports: https://github.com/lmgibson/did-sensitivity-replication/issues
 License: MIT + file LICENSE
 Depends: R (== 4.5.0)
 Imports:

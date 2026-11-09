@@ -1,5 +1,7 @@
 cff-version: 1.2.0
 type: software
+repository-code: "https://github.com/lmgibson/did-sensitivity-replication"
+url: "https://github.com/lmgibson/did-sensitivity-replication"
 title: "Difference-in-differences sensitivity analysis: replication and reconciliation"
 message: >-
   Please cite Gibson and Zimmerman (2021) when using these replication materials,

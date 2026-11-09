@@ -10,3 +10,6 @@ outputs/models/
 outputs/environment/
 _targets/
 outputs/upgrade_evaluation/
+
+# Local archive of recovered source materials.
+/staging/

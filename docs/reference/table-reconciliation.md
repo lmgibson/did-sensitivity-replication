@@ -1,6 +1,6 @@
 # Published Tables 2 and 3: reconciliation research
 
-Research date: 2026-11-08. Baseline: `18249af`. Isolated branch: `research/reconcile-published-tables`.
+Research date: 2026-11-08. Baseline: `bbc6a73` (publication-cleaned history). Isolated branch: `research/reconcile-published-tables`.
 
 **Follow-up:** [archived revenue-per-capita reconstruction](table2-provenance-recovery.md) subsequently recovered a source-supported Table 2 fit. The initial findings below remain a record of the first investigation; its statement that no alternative fit was recovered is superseded by that follow-up. The revenue reconstruction is now integrated into the default cleaned analysis, with ACS results retained as baseline diagnostics.
 

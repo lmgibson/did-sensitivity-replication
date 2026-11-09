@@ -34,11 +34,19 @@ The run uses `_targets.R` to track raw/reference files, prepare both panels, fit
 - [Cell-level comparison](../../outputs/diagnostics/published_table_comparison.csv): published values, recovered values, differences, precision, and pass/fail flags.
 - [Replication audit](../reference/replication-audit.md): model specifications, adaptations, and unresolved issues.
 
-Tables 1 and 4 match at published precision. Table 3 has a small effect-entry discrepancy; Table 2 remains unresolved. The validation requires the established Table 1/4 matches, sample sizes, unique state/year keys, valid enrollment percentages, and agreement between independently computed first-difference estimates and `plm`.
+Tables 1 and 4 match at published precision. Table 2 now uses the source-supported revenue-per-capita model and matches 20/24 cells directly; the separate reporting reconstruction matches 22/24. Two p-values remain inconsistent. Table 3 has a small effect-entry discrepancy. The validation requires the established Table 1/4 matches, all Table 2 SE/t matches, sample sizes, unique state/year keys, valid enrollment percentages, and agreement between independently computed first-difference estimates and `plm`.
 
 See `outputs/tables/` for full estimates and `outputs/samples/` for model membership. `outputs/environment/session_info.txt` and `package_versions.csv` record the environment. Generated files are replaced when their export targets need rebuilding. Environment files describe the run that last built those exports.
 
-## Explore the Table 2 discrepancy
+## Inspect the two spending specifications
+
+Table 1 uses ACS personal income per capita. Table 2 uses NASBO `total rev * 1000000 / Population`, reconstructed from the earlier commented archive code. The original analytic panel still retains its ACS `pc_inc`; Table 2 adds an explicitly named `revenue_per_capita` field to its own exported model data.
+
+The default full-precision results are in `outputs/tables/table_2_spending_sensitivity.csv`. The reporting hypothesis is separate: `table_2_spending_reporting_reconstruction.csv` copies adjusted log coefficients at four decimals before converting to percentage effects. See `outputs/diagnostics/table_2_reporting_comparison.csv` for its 22/24 comparison, `model_specifications.csv` for table labels, and [the provenance report](../reference/table2-provenance-recovery.md) for evidence and the remaining p-value discrepancies.
+
+The original ACS Table 2 output and its full comparison remain under `outputs/diagnostics/` as `table_2_acs_sensitivity.csv` and `published_table_comparison{,_summary}_acs.csv`. These document the earlier 2/24 baseline rather than replacing or changing its fixtures.
+
+## Explore additional spending specifications
 
 After a full run, execute from the repository root:
 
@@ -46,7 +54,7 @@ After a full run, execute from the repository root:
 Rscript --vanilla scripts/diagnose_spending_bounds.R
 ```
 
-This separate exploratory script compares nearby time windows and calendar/fiscal-year LFP. It writes `outputs/diagnostics/spending_sensitivity_diagnostics.csv` and does not alter the canonical models or reference targets.
+This separate exploratory script preserves the original ACS-based window and calendar/fiscal-year LFP checks; it does not replace the promoted revenue-based Table 2 reconstruction. It writes `outputs/diagnostics/spending_sensitivity_diagnostics.csv` and does not alter the canonical models or reference targets.
 
 ## Check a code change against the recovered baseline
 
@@ -54,9 +62,17 @@ This separate exploratory script compares nearby time windows and calendar/fisca
 Rscript --vanilla tests/check_regression.R
 ```
 
-The checks regenerate all results in a temporary directory, including the exploratory diagnostics, and compare them with fixtures frozen before the readability refactor. They require byte-identical CSVs, identical full prepared panels, and exact equality for model coefficients, covariance matrices, residuals, fitted values, model frames, degrees of freedom, and sensitivity bounds. They also check that loading source modules does not execute the workflow.
+The checks explicitly replay the original ACS baseline (`run_replication(table2_specification = "acs")`) in a temporary directory, including the exploratory diagnostics, and compare them with fixtures frozen before the readability refactor. They require byte-identical CSVs, identical full prepared panels, and exact equality for model coefficients, covariance matrices, residuals, fitted values, model frames, degrees of freedom, and sensitivity bounds. They also check that loading source modules does not execute the workflow.
 
 This is separate from comparison with the paper: the recovery baseline intentionally contains the documented Table 2/3 discrepancies. See [the fixture notes](../../tests/README.md). The test does not overwrite normal outputs or update fixtures automatically.
+
+Check the integrated default reconstruction independently:
+
+```sh
+Rscript --vanilla tests/check_reconciliation.R
+```
+
+This checks the revenue Table 2 CSV against the independently recovered evidence, confirms the 20/24 direct and 22/24 reporting comparisons and unchanged seven original models, and verifies saved model/data exports. The workflow test below exercises the same checks with targets caching.
 
 ## Lint the maintained code
 

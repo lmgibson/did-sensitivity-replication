@@ -1,5 +1,14 @@
-replication_tables <- function(spending, enrollment) {
-  list(spending$table1, spending$table2, enrollment$table3, enrollment$table4)
+replication_tables <- function(
+  spending,
+  enrollment,
+  spending_sensitivity = NULL
+) {
+  table2 <- if (is.null(spending_sensitivity)) {
+    spending$table2
+  } else {
+    spending_sensitivity$table2
+  }
+  list(spending$table1, table2, enrollment$table3, enrollment$table4)
 }
 
 model_sample <- function(model, panel, columns) {
@@ -11,9 +20,10 @@ export_results <- function(
   spending,
   enrollment,
   output_dir = "outputs",
-  derived_dir = "data/derived"
+  derived_dir = "data/derived",
+  spending_sensitivity = NULL
 ) {
-  tables <- replication_tables(spending, enrollment)
+  tables <- replication_tables(spending, enrollment, spending_sensitivity)
   table_files <- c(
     "table_1_spending_models.csv",
     "table_2_spending_sensitivity.csv",
@@ -34,8 +44,14 @@ export_results <- function(
       spending = spending$models,
       enrollment = enrollment$models,
       enrollment_differences = enrollment$differences,
-      spending_sensitivity = spending$sensitivity,
-      enrollment_sensitivity = enrollment$sensitivity
+      spending_sensitivity = if (is.null(spending_sensitivity)) {
+        spending$sensitivity
+      } else {
+        spending_sensitivity$sensitivity
+      },
+      spending_sensitivity_acs = spending$sensitivity,
+      enrollment_sensitivity = enrollment$sensitivity,
+      table2_revenue = spending_sensitivity
     ),
     file.path(output_dir, "models/replication_models.rds")
   )

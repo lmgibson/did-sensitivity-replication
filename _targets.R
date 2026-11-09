@@ -47,18 +47,28 @@ list(
   }),
 
   tar_target(spending_models, fit_spending(spending_panel)),
+  tar_target(spending_sensitivity, fit_spending_sensitivity(spending_panel)),
   tar_target(enrollment_models, fit_enrollment(enrollment_panel)),
   tar_target(published_targets, read.csv(reference_file)),
   tar_target(
     comparisons,
     compare_published_tables(
-      replication_tables(spending_models, enrollment_models),
+      replication_tables(
+        spending_models,
+        enrollment_models,
+        spending_sensitivity
+      ),
       published_targets
     )
   ),
   tar_target(
     validation,
-    validate_replication(spending_models, enrollment_models, comparisons)
+    validate_replication(
+      spending_models,
+      enrollment_models,
+      comparisons,
+      spending_sensitivity
+    )
   ),
 
   # Exports depend on successful validation and return their paths for file tracking.
@@ -79,7 +89,21 @@ list(
       enrollment_models,
       validation,
       workflow_paths$derived_dir,
-      workflow_paths$output_dir
+      workflow_paths$output_dir,
+      spending_sensitivity
+    ),
+    format = "file"
+  ),
+  tar_target(
+    reconciliation_files,
+    export_spending_reconciliation(
+      spending_sensitivity,
+      spending_models,
+      enrollment_models,
+      published_targets,
+      validation,
+      workflow_paths$output_dir,
+      workflow_paths$derived_dir
     ),
     format = "file"
   ),
@@ -95,7 +119,7 @@ list(
   tar_target(
     environment_files,
     write_environment_record(
-      analysis_files,
+      c(analysis_files, reconciliation_files),
       comparison_files,
       workflow_paths$output_dir
     ),

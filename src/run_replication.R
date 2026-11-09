@@ -3,18 +3,30 @@ run_replication <- function(
   raw_dir = "data/raw",
   derived_dir = "data/derived",
   output_dir = "outputs",
-  targets_file = "data/reference/published_targets.csv"
+  targets_file = "data/reference/published_targets.csv",
+  table2_specification = c("revenue", "acs")
 ) {
+  table2_specification <- match.arg(table2_specification)
   prepare_output_directories(derived_dir, output_dir)
   spending_panel <- prepare_spending(raw_dir)
   enrollment_panel <- prepare_enrollment(raw_dir)
   spending <- fit_spending(spending_panel)
   enrollment <- fit_enrollment(enrollment_panel)
+  spending_sensitivity <- if (table2_specification == "revenue") {
+    fit_spending_sensitivity(spending_panel)
+  } else {
+    NULL
+  }
   comparisons <- compare_published_tables(
-    replication_tables(spending, enrollment),
+    replication_tables(spending, enrollment, spending_sensitivity),
     read.csv(targets_file)
   )
-  validation <- validate_replication(spending, enrollment, comparisons)
+  validation <- validate_replication(
+    spending,
+    enrollment,
+    comparisons,
+    spending_sensitivity
+  )
 
   write_prepared_panels(
     spending_panel,
@@ -27,8 +39,23 @@ run_replication <- function(
     enrollment,
     validation,
     derived_dir,
-    output_dir
+    output_dir,
+    spending_sensitivity
   )
+  if (!is.null(spending_sensitivity)) {
+    analysis_files <- c(
+      analysis_files,
+      export_spending_reconciliation(
+        spending_sensitivity,
+        spending,
+        enrollment,
+        read.csv(targets_file),
+        validation,
+        output_dir,
+        derived_dir
+      )
+    )
+  }
   comparison_files <- write_comparison_outputs(
     comparisons,
     validation,
@@ -39,6 +66,7 @@ run_replication <- function(
   invisible(list(
     spending = spending,
     enrollment = enrollment,
-    comparisons = comparisons
+    comparisons = comparisons,
+    spending_sensitivity = spending_sensitivity
   ))
 }

@@ -60,11 +60,18 @@ write_analysis_outputs <- function(
   enrollment,
   validation,
   derived_dir = "data/derived",
-  output_dir = "outputs"
+  output_dir = "outputs",
+  spending_sensitivity = NULL
 ) {
   stopifnot(isTRUE(validation))
   prepare_output_directories(derived_dir, output_dir)
-  export_results(spending, enrollment, output_dir, derived_dir)
+  export_results(
+    spending,
+    enrollment,
+    output_dir,
+    derived_dir,
+    spending_sensitivity
+  )
 }
 
 write_comparison_outputs <- function(

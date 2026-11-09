@@ -8,7 +8,11 @@ flowchart LR
   E[Enrollment source files] --> EP[enrollment_panel]
   C[Shared labor and ideology files] --> SP
   C --> EP
-  SP --> SM[spending_models]
+  SP --> SM[spending_models: Table 1 and ACS diagnostic]
+  SP --> SS[spending_sensitivity: revenue-based Table 2]
+  SS --> CMP
+  SS --> V
+  SS --> OUT
   EP --> EM[enrollment_models]
   SM --> CMP[comparisons]
   EM --> CMP
@@ -24,33 +28,33 @@ flowchart LR
   OUT --> ENV[Environment record]
 ```
 
-The actual workflow has 15 targets:
+The actual workflow has 17 targets:
 
 | Targets | Role |
 | --- | --- |
 | `shared_source_files`, `spending_source_files`, `enrollment_source_files` | Track the exact raw files read by the preparation functions |
 | `reference_file`, `published_targets` | Track and read the published comparison values |
 | `spending_panel`, `enrollment_panel` | Prepare data independently |
-| `spending_models`, `enrollment_models` | Fit each example and calculate its sensitivity statistics |
+| `spending_models`, `spending_sensitivity`, `enrollment_models` | Fit Table 1/ACS diagnostic, the revenue-based Table 2 reconstruction, and enrollment models |
 | `comparisons`, `validation` | Compare with the paper and run consistency checks |
-| `prepared_panel_files`, `analysis_files`, `comparison_files` | Write and track validated outputs |
+| `prepared_panel_files`, `analysis_files`, `comparison_files`, `reconciliation_files` | Write and track validated outputs |
 | `environment_files` | Record the environment after the analysis/comparison exports exist |
 
 The preparation commands explicitly reference their source-file targets because the underlying readers accept a directory. Those references are essential: tracking the directory name alone would not detect edits to file contents. Shared labor and ideology changes invalidate both examples. Enrollment-only input changes invalidate the enrollment branch; changes to the reference table affect comparison/validation and downstream exports without refitting models.
 
 ## Commands and caching
 
-The existing shell command, `Rscript --vanilla scripts/run_replication.R`, resolves the repository root and calls `targets::tar_make()`. In an R session at the root, `targets::tar_make()` does the same work. `targets::tar_read(spending_models)` retrieves a cached result; its list contains the fitted models, tables, panel, and sensitivity results.
+The existing shell command, `Rscript --vanilla scripts/run_replication.R`, resolves the repository root and calls `targets::tar_make()`. In an R session at the root, `targets::tar_make()` does the same work. `targets::tar_read(spending_models)` retrieves a cached result; its list contains the Table 1 fitted models and original ACS-based sensitivity diagnostic. `targets::tar_read(spending_sensitivity)` retrieves the distinct revenue model, analytic panel, full-precision bounds, and reporting reconstruction for Table 2.
 
 `targets::tar_visnetwork(targets_only = TRUE)` displays the dependency graph. `scripts/view_workflow.R` saves an interactive HTML version. `targets::tar_outdated()` lists steps that need rebuilding.
 
-Targets caches intermediate objects in the ignored `_targets/` directory and skips current work. All generated analysis files are returned by file targets, so missing or edited exports are detected. Exports are currently grouped: deleting one table regenerates the analysis export group, while cached model fits are reused. This keeps the first integration small and readable.
+Targets caches intermediate objects in the ignored `_targets/` directory and skips current work. All generated analysis files are returned by file targets, so missing or edited exports are detected. Exports are currently grouped: deleting one table regenerates the analysis export group, while cached model fits are reused. The reconciliation exports form a separate group, so deleting a reporting output also reuses all cached model fits.
 
-Installed package versions and R are recorded with the exports but do not automatically invalidate cached calculations. After an environment change, invalidate and rerun the workflow; environment locking is a separate future improvement. If you copy or relocate the repository, discard the old `_targets/` cache and rebuild, because file targets contain paths.
+Installed package versions and R are recorded with the exports but do not automatically invalidate cached calculations. After an environment change, invalidate and rerun the workflow; the renv lockfile and R version pin define the supported environment. Use `targets::tar_invalidate(names = tidyselect::everything())` before rebuilding after an environment change. If you copy or relocate the repository, discard the old `_targets/` cache and rebuild, because file targets contain paths.
 
 ## Regression checks and optional work
 
-`src/run_replication.R` retains an uncached function for debugging and the independent exact regression check. Both orchestrators call the same preparation, modeling, validation, and export functions. `tests/check_regression.R` verifies the uncached runner; `tests/check_workflow.R` verifies the real cached workflow against the same frozen baseline and tests cache/file behavior.
+`src/run_replication.R` retains an uncached function for debugging and the independent exact regression check. Both orchestrators call the same preparation, modeling, validation, and export functions. `tests/check_regression.R` explicitly runs `table2_specification = "acs"` to preserve the original 18-file/seven-model contract. `tests/check_reconciliation.R` verifies the default revenue reconstruction against independent archival evidence and confirms the other models remain unchanged. `tests/check_workflow.R` verifies both contracts in the cached workflow: original ACS values are checked through their labeled diagnostic exports, while the primary Table 2 output is checked against revenue evidence. It also tests cache and file behavior.
 
 The exploratory spending-bounds diagnostics remain a separate command. They are not part of the default graph, so speculative variants do not become dependencies of the published-table replication.
 

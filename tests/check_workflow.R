@@ -78,6 +78,11 @@ check_workflow <- function() {
 
       spending <- targets::tar_read(spending_models, store = store)
       enrollment <- targets::tar_read(enrollment_models, store = store)
+      spending_sensitivity <- targets::tar_read(
+        spending_sensitivity,
+        store = store
+      )
+      assert_spending_reconstruction(workspace, spending, spending_sensitivity)
       diagnostics <- diagnose_table2(
         readRDS(file.path(settings[["DID_DERIVED_DIR"]], "spending_panel.rds")),
         settings[["DID_RAW_DIR"]]
@@ -94,9 +99,18 @@ check_workflow <- function() {
         "tests/fixtures/output_baseline_checksums.csv",
         stringsAsFactors = FALSE
       )
+      # Preserve the old 18-file contract through explicitly labeled ACS diagnostics.
+      baseline_paths <- manifest$path
+      replacements <- c(
+        "outputs/tables/table_2_spending_sensitivity.csv" = "outputs/diagnostics/table_2_acs_sensitivity.csv",
+        "outputs/diagnostics/published_table_comparison.csv" = "outputs/diagnostics/published_table_comparison_acs.csv",
+        "outputs/diagnostics/published_table_comparison_summary.csv" = "outputs/diagnostics/published_table_comparison_summary_acs.csv"
+      )
+      changed <- baseline_paths %in% names(replacements)
+      baseline_paths[changed] <- replacements[baseline_paths[changed]]
       for (i in seq_len(nrow(manifest))) {
         assert_identical(
-          unname(tools::md5sum(file.path(workspace, manifest$path[i]))),
+          unname(tools::md5sum(file.path(workspace, baseline_paths[i]))),
           manifest$md5[i],
           manifest$path[i]
         )
@@ -139,7 +153,7 @@ check_workflow <- function() {
           "enrollment/ACS_09_1YR_B27016_with_ann.csv"
         ),
         c("enrollment_source_files", "enrollment_panel", "enrollment_models"),
-        c("spending_panel", "spending_models")
+        c("spending_panel", "spending_models", "spending_sensitivity")
       )
       check_input_change(
         file.path(settings[["DID_RAW_DIR"]], "shared/stateideology_v2018.xlsx"),
@@ -148,6 +162,7 @@ check_workflow <- function() {
           "spending_panel",
           "enrollment_panel",
           "spending_models",
+          "spending_sensitivity",
           "enrollment_models"
         )
       )
@@ -158,6 +173,7 @@ check_workflow <- function() {
           "spending_panel",
           "enrollment_panel",
           "spending_models",
+          "spending_sensitivity",
           "enrollment_models"
         )
       )
@@ -172,11 +188,15 @@ check_workflow <- function() {
       changed <- outdated()
       stopifnot(
         "analysis_files" %in% changed,
-        !any(c("spending_models", "enrollment_models") %in% changed)
+        !any(
+          c("spending_models", "enrollment_models", "spending_sensitivity") %in%
+            changed
+        )
       )
       make()
       after <- metadata()
-      models <- before$name %in% c("spending_models", "enrollment_models")
+      models <- before$name %in%
+        c("spending_models", "enrollment_models", "spending_sensitivity")
       assert_identical(
         after[models, ],
         before[models, ],
@@ -189,9 +209,30 @@ check_workflow <- function() {
         ],
         "Recreated table"
       )
+      # The reporting export is tracked separately and regenerates without refits.
+      reporting_path <- file.path(
+        settings[["DID_OUTPUT_DIR"]],
+        "tables/table_2_spending_reporting_reconstruction.csv"
+      )
+      unlink(reporting_path)
+      changed <- outdated()
+      stopifnot(
+        "reconciliation_files" %in% changed,
+        !any(
+          c("spending_models", "enrollment_models", "spending_sensitivity") %in%
+            changed
+        )
+      )
+      make()
+      assert_identical(
+        metadata()[models, ],
+        before[models, ],
+        "Models after reporting export recreation"
+      )
+      assert_spending_reconstruction(workspace, spending, spending_sensitivity)
       stopifnot(length(outdated()) == 0L)
       cat(
-        "Workflow checks passed: exact baseline, cached second run, input/reference invalidation, and missing-output recovery.\n"
+        "Workflow checks passed: preserved ACS baseline, reconciled Table 2, cached second run, input/reference invalidation, and missing-output recovery.\n"
       )
       unlink(workspace, recursive = TRUE)
     },

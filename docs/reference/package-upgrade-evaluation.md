@@ -1,5 +1,7 @@
 # Package upgrade evaluation, 2026-11-08
 
+This records dependency compatibility against the original ACS-based recovery baseline. The subsequent [Table 2 revenue reconstruction](table2-provenance-recovery.md) is an intentional analysis change, tested separately; package updates did not cause that change.
+
 ## Decision
 
 Accept the updated package environment in the root `renv.lock`; retain **R 4.5.0** for exact reproduction. Every maintained numerical regression check and workflow integration check passes in the main project after restoring that lockfile. Statistical code, raw inputs, published references, and frozen fixtures were not changed.

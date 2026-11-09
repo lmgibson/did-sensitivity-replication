@@ -11,7 +11,7 @@ The numeric targets in [published_targets.csv](../../data/reference/published_ta
 | Table | Matches at published precision | Finding |
 | --- | --- | --- |
 | 1: spending models | 16 / 16 | Effect, p-value, RV, and EV match for every row. |
-| 2: spending sensitivity bounds | 2 / 24 | Only two displayed SE cells match. The archived model does not reproduce this table. |
+| 2: spending sensitivity bounds | 20 / 24 direct; 22 / 24 with intermediate log rounding | Recovered revenue-per-capita specification; two p-values remain inconsistent. |
 | 3: enrollment models | 11 / 12 | All p-value thresholds, RVs, EVs, and the first two effects match. Fully adjusted effect is 7.6949196, versus printed 7.70. |
 | 4: enrollment sensitivity bounds | 12 / 12 | All adjusted estimates, SEs, and t-values match. |
 
@@ -36,15 +36,17 @@ The exact Table 1 reproduction uses `plm`'s within estimator, `effect = "twoways
 
 The ordinary OLS SEs are also exported. They are **not** interchangeable: in model 1, the cluster SE is 0.03658855 and the OLS SE is 0.03017269. `RV_ols` and `EV_ols` provide an explicit alternative calculated from the conventional regression geometry. Reproducing the published cluster-SE-based statistics does not establish that substituting a cluster SE into the OLS sensitivity formula is methodologically justified.
 
-### Unresolved Table 2
+### Recovered Table 2 specification
 
-The calculation in `src/analysis/fit_spending_models.R` follows the archived final spending sensitivity call: the model includes LFP, per-capita income, institutional ideology, state/year effects, and excludes Ohio/Connecticut. `sensemakr` benchmarks LFP at 2, 4, 6, 8, 10, and 12 times its observed strength.
+The default Table 2 analysis now uses a separate revenue-per-capita fit: `NASBO total rev * 1000000 / Population`. This formula survives as a commented earlier construction of `pc_inc`, immediately before the archived script switches to ACS personal income. Table 1 continues to use the later ACS construction. Both use the 2010–2015 window, state/year effects, LFP and institutional ideology, and the Ohio/Connecticut exclusion. The recovered Table 2 model has 288 observations, 231 residual df, and an original effect of −6.6966164%, which rounds to the older −6.70%.
 
-This yields, for example, t-values of -2.163534 at 2× LFP and 0.351357 at 12× LFP; the paper reports -2.2188 and 0.1395. At 12×, the percent effect is approximately 0.4914%, versus published 0.19%. This discrepancy remains unexplained.
+This is a source-supported regression on archived observations. It matches all six published SEs and all six t-values. The default full-precision comparison matches 20/24 cells. A separately exported reporting hypothesis rounds adjusted log estimates to four decimals before percentage conversion, recovering two more effect cells (22/24). It does not alter the primary full-precision estimates.
 
-Checks of closely related archived specifications, citizen versus institutional ideology, calendar versus fiscal-year LFP, and nearby time windows have not recovered the printed table. Alternate archived inputs checked were identical. No unsupported change is selected just because it moves an estimate closer to the target. The bounded window/LFP diagnostics are saved separately in `spending_sensitivity_diagnostics.csv`.
+The remaining p-values are .1292956 versus printed .130 at 8× LFP, and .2728568 versus printed .272 at 10×. The latter printed t/p pair is incompatible with ordinary nearest rounding for any positive Student-t df. Displayed probabilities are largely one-sided, while the discussion of significance appears to use two-sided probabilities. Both probability conventions remain exported.
 
-The paper's Table 2 p-values are consistent with one-sided t probabilities, while its discussion of significance appears to use two-sided probabilities. For example, |t| = 1.9075 gives a one-sided p near 0.029 and a two-sided p near 0.058. The recovered output includes both probabilities, without conflating them.
+The older dissertation manuscript has a −6.70% final model and the same 24 Table 2 cells; later drafts update Table 1 to −6.58% but retain the sensitivity table. See the [provenance recovery](table2-provenance-recovery.md) and [initial numerical investigation](table-reconciliation.md). The final historical session and table-export operation were not recovered, so the exact reporting pathway remains a hypothesis.
+
+The original ACS-based sensitivity call still yields t-values −2.163534 and 0.351357 at 2×/12× LFP and only 2/24 matches. It is preserved as an explicitly labeled diagnostic, together with the original comparison outputs. The original seven models, panels, and 18-file regression contract remain tested without changing any fixtures.
 
 ## Enrollment example: recovered specification
 
@@ -74,4 +76,4 @@ The 2026-11-08 reorganization was checked against a saved pre-move baseline: 18 
 
 Run `Rscript --vanilla scripts/run_replication.R` from a clean session. The run verifies unique state/year keys, valid enrollment percentages, recovered sample sizes, and agreement between independently constructed first-difference OLS estimates and `plm(model = "fd")`. Table 1 and Table 4 comparisons are required to pass. The run also reports remaining mismatches explicitly.
 
-The source checksums and fresh-session run establish a usable recovery baseline. This is not yet a finalized replication release. Active code now lives in `src/`, primary inputs in `data/raw/`, and generated results in `outputs/`. Resolve or explain Table 2 and review the Table 1 SE interpretation and Table 3 effect entry before preparing materials for the requester.
+The source checksums and fresh-session run establish a usable recovery baseline. This is not yet a finalized replication release. Active code now lives in `src/`, primary inputs in `data/raw/`, and generated results in `outputs/`. Explain the mixed Table 1/2 covariate constructions and remaining p-values, and review the Table 1 SE interpretation and Table 3 effect entry before preparing materials for the requester.

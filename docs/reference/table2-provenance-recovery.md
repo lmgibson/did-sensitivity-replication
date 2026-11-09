@@ -1,6 +1,6 @@
 # Table 2 provenance: recovering the revenue-per-capita construction
 
-Investigation date: 2026-11-08. This follows the [initial reconciliation research](table-reconciliation.md). It provides a source-supported regression reconstruction, stronger than the initial curve inferred from printed targets. Canonical analysis code and fixtures remain unchanged pending review.
+Investigation date: 2026-11-08. This follows the [initial reconciliation research](table-reconciliation.md). It provides a source-supported regression reconstruction, stronger than the initial curve inferred from printed targets. The reviewed revenue reconstruction is now integrated as the default Table 2 model; Table 1 retains ACS income. Historical fixtures remain unchanged.
 
 ## Main finding
 
@@ -80,11 +80,11 @@ Rscript --vanilla research/reconciliation/recover_revenue_benchmark.R
 
 The script recomputes the panel from raw inputs, substitutes only the commented covariate construction, and calls the maintained spending analysis. It writes fitted-model parameters, bounds, direct/intermediate-rounding cell comparisons, and a research fitted object under ignored `outputs/diagnostics/provenance/`. The small committed CSVs are evidence snapshots, not canonical fixtures. [Source hashes](../../research/reconciliation/evidence/table_lineage_sources.csv) identify the local archive documents.
 
-The new script passes Air and Jarl. Its results and match counts were independently recomputed by the Astra reviewer. No canonical code, raw data, published targets, root dependency lockfile, or frozen fixture was changed. The canonical suites passed after the previously merged research work; this follow-up changes only optional research code and documentation.
+The research script passes Air and Jarl, and its results and match counts were independently recomputed by the Astra reviewer. It established the evidence subsequently used to integrate `fit_spending_sensitivity()` into the cleaned analysis. No raw data, published targets, root dependency lockfile, or frozen fixture was changed. The original ACS baseline is tested explicitly, while new reconciliation tests check the promoted revenue model against the independent evidence.
 
 ## Recommended disposition
 
-Keep the default ACS-based analysis and its exact regression checks intact until the reconstruction is reviewed. The canonical single-specification comparison remains 2/24 for Table 2; 20/24 and 22/24 describe the separate historical revenue reconstruction and its reporting pathway, respectively.
+Following review, the default workflow now uses the revenue reconstruction for Table 2 and the ACS model for Table 1, with both constructions labeled in `model_specifications.csv`. The primary Table 2 comparison is 20/24; the separately exported reporting-path comparison is 22/24. The original ACS Table 2 diagnostic and its 2/24 comparison remain available and byte-exact against the original baseline.
 
 For eventual replication materials, provide both clearly labeled constructions: the ACS model reproducing published Table 1 and the source-supported revenue model explaining Table 2. State the intermediate-rounding hypothesis and the two remaining p-value discrepancies. Do not describe all four tables as one perfectly reproduced, consistent specification.
 

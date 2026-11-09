@@ -18,7 +18,22 @@ compare_published_tables <- function(tables, targets) {
   do.call(rbind, rows)
 }
 
-validate_replication <- function(spending, enrollment, comparisons) {
+validate_replication <- function(
+  spending,
+  enrollment,
+  comparisons,
+  spending_sensitivity = NULL
+) {
+  if (!is.null(spending_sensitivity)) {
+    stopifnot(nobs(spending_sensitivity$model) == 288L)
+    stopifnot(df.residual(spending_sensitivity$model) == 231L)
+    expected_metrics <- comparisons$table == 2 &
+      comparisons$metric %in% c("adjusted_se", "adjusted_t")
+    stopifnot(
+      sum(expected_metrics) == 12L,
+      all(comparisons$match[expected_metrics])
+    )
+  }
   stopifnot(all(comparisons$match[comparisons$table %in% c(1, 4)]))
   stopifnot(all(
     vapply(enrollment$models, nobs, integer(1)) == c(230L, 230L, 184L)
@@ -46,7 +61,12 @@ validate_replication <- function(spending, enrollment, comparisons) {
   invisible(TRUE)
 }
 
-export_comparisons <- function(comparisons, output_dir = "outputs") {
+export_comparisons <- function(
+  comparisons,
+  output_dir = "outputs",
+  suffix = "",
+  verbose = TRUE
+) {
   counts <- aggregate(
     match ~ table,
     data = comparisons,
@@ -54,23 +74,31 @@ export_comparisons <- function(comparisons, output_dir = "outputs") {
   )
   write.csv(
     comparisons,
-    file.path(output_dir, "diagnostics/published_table_comparison.csv"),
+    file.path(
+      output_dir,
+      paste0("diagnostics/published_table_comparison", suffix, ".csv")
+    ),
     row.names = FALSE
   )
   write.csv(
     counts,
-    file.path(output_dir, "diagnostics/published_table_comparison_summary.csv"),
+    file.path(
+      output_dir,
+      paste0("diagnostics/published_table_comparison_summary", suffix, ".csv")
+    ),
     row.names = FALSE
   )
-  cat("\nMATCHES AT PUBLISHED PRECISION\n")
-  print(counts)
-  cat("Integrity, sample-size, and independent FD estimator checks passed.\n")
+  if (verbose) {
+    cat("\nMATCHES AT PUBLISHED PRECISION\n")
+    print(counts)
+    cat("Integrity, sample-size, and independent FD estimator checks passed.\n")
+  }
   invisible(file.path(
     output_dir,
     "diagnostics",
     c(
-      "published_table_comparison.csv",
-      "published_table_comparison_summary.csv"
+      paste0("published_table_comparison", suffix, ".csv"),
+      paste0("published_table_comparison_summary", suffix, ".csv")
     )
   ))
 }

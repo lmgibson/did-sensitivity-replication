@@ -9,7 +9,7 @@ Rscript --vanilla scripts/setup_environment.R
 Rscript --vanilla scripts/run_replication.R
 ```
 
-Install **R 4.5.0** first. Setup restores the exact package versions in `renv.lock` into an isolated project library. The entry point runs the [`targets` workflow](_targets.R), rebuilding outdated steps and reusing current results. Tables 1 and 4 match at reported precision; Table 2 and one Table 3 effect entry remain unresolved. See the [replication audit](docs/reference/replication-audit.md).
+Install **R 4.5.0** first. Setup restores the exact package versions in `renv.lock` into an isolated project library. The entry point runs the [`targets` workflow](_targets.R), rebuilding outdated steps and reusing current results. Tables 1 and 4 match at reported precision. The source-supported revenue model matches 20/24 Table 2 cells directly, or 22/24 with separately exported intermediate log rounding; two p-values remain discrepant. Table 3 retains one effect-entry discrepancy. See the [replication audit](docs/reference/replication-audit.md).
 
 Inspect the workflow with `targets::tar_visnetwork()` from R, or save an interactive graph with `Rscript --vanilla scripts/view_workflow.R`. See [how the workflow fits together](docs/explanation/workflow.md).
 
@@ -19,7 +19,7 @@ Check that code changes preserve the recovered baseline exactly:
 Rscript --vanilla tests/check_regression.R
 ```
 
-Check caching, file tracking, and output recovery with `Rscript --vanilla tests/check_workflow.R`.
+Check the integrated revenue reconstruction with `Rscript --vanilla tests/check_reconciliation.R`. Check caching, file tracking, and output recovery with `Rscript --vanilla tests/check_workflow.R`. The original exact-regression command explicitly replays the ACS baseline; fixtures are unchanged.
 
 The current lockfile includes dependency updates verified against the frozen baseline. R remains pinned to 4.5.0: an R 4.6.2 evaluation preserved the reported results but changed three comparison differences at about `1e-16`. See the [upgrade evaluation](docs/reference/package-upgrade-evaluation.md) for accepted versions and evidence.
 

@@ -24,7 +24,8 @@ tryCatch(
     derived_dir <- file.path(workspace, "data/derived")
     result <- run_replication(
       derived_dir = derived_dir,
-      output_dir = output_dir
+      output_dir = output_dir,
+      table2_specification = "acs"
     )
     diagnostics <- diagnose_table2(readRDS(file.path(
       derived_dir,

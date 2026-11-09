@@ -1,4 +1,4 @@
-# Tables 1–2: state/year fixed effects and LFP sensitivity bounds.
+# Table 1 and the original ACS-based sensitivity diagnostic for baseline checks.
 fit_spending <- function(prepared_panel) {
   panel <- as.data.frame(prepared_panel)
   panel$state <- factor(panel$state)

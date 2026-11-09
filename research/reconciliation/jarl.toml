@@ -1,0 +1,5 @@
+[lint]
+include = ["*.R"]
+
+[lint.pipe_consistency]
+pipe = "%>%"

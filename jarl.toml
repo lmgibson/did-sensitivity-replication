@@ -1,0 +1,6 @@
+[lint]
+# Check maintained R code; archived scripts and generated files live elsewhere.
+include = ["_targets.R", "src/", "scripts/", "tests/"]
+
+[lint.pipe_consistency]
+pipe = "%>%"

@@ -1,0 +1,48 @@
+CSV files matching exactly: 17 / 18 
+                                                 path exact
+15 outputs/diagnostics/published_table_comparison.csv FALSE
+spending panel identical: TRUE 
+enrollment panel identical: TRUE 
+spending identical: TRUE 
+[1] TRUE
+enrollment identical: TRUE 
+[1] TRUE
+spending_bounds identical: TRUE 
+[1] TRUE
+enrollment_bounds identical: TRUE 
+[1] TRUE
+spending 1 coefficients max absolute difference: 0 
+spending 1 covariance max absolute difference: 0 
+spending 1 residuals max absolute difference: 0 
+spending 1 fitted max absolute difference: 0 
+spending 1 dof max absolute difference: 0 
+spending 2 coefficients max absolute difference: 0 
+spending 2 covariance max absolute difference: 0 
+spending 2 residuals max absolute difference: 0 
+spending 2 fitted max absolute difference: 0 
+spending 2 dof max absolute difference: 0 
+spending 3 coefficients max absolute difference: 0 
+spending 3 covariance max absolute difference: 0 
+spending 3 residuals max absolute difference: 0 
+spending 3 fitted max absolute difference: 0 
+spending 3 dof max absolute difference: 0 
+spending 4 coefficients max absolute difference: 0 
+spending 4 covariance max absolute difference: 0 
+spending 4 residuals max absolute difference: 0 
+spending 4 fitted max absolute difference: 0 
+spending 4 dof max absolute difference: 0 
+enrollment 1 coefficients max absolute difference: 0 
+enrollment 1 covariance max absolute difference: 0 
+enrollment 1 residuals max absolute difference: 0 
+enrollment 1 fitted max absolute difference: 0 
+enrollment 1 dof max absolute difference: 0 
+enrollment 2 coefficients max absolute difference: 0 
+enrollment 2 covariance max absolute difference: 0 
+enrollment 2 residuals max absolute difference: 0 
+enrollment 2 fitted max absolute difference: 0 
+enrollment 2 dof max absolute difference: 0 
+enrollment 3 coefficients max absolute difference: 0 
+enrollment 3 covariance max absolute difference: 0 
+enrollment 3 residuals max absolute difference: 0 
+enrollment 3 fitted max absolute difference: 0 
+enrollment 3 dof max absolute difference: 0 

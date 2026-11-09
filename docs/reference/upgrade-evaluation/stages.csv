@@ -1,0 +1,7 @@
+stage,r_version,exact_regression,workflow,notes
+tooling,4.5.0,pass,pass,languageserver 0.3.20 plus required dependencies
+data,4.5.0,pass,pass,dplyr/readr/readxl/stringr and required dependencies
+statistics,4.5.0,pass,pass,plm/sandwich and required dependencies
+remaining_binaries,4.5.0,pass,pass,all remaining binary updates
+final_project,4.5.0,pass,pass,also languageserver 0.3.21 from source; MASS/Matrix/lattice/nlme explicitly updated
+aligned_runtime_candidate,4.6.2,fail,fail,identical package versions; comparison CSV differs in three cells

@@ -1,0 +1,12 @@
+.DS_Store
+.RData
+.Rhistory
+Rplots.pdf
+data/derived/
+outputs/tables/
+outputs/diagnostics/
+outputs/samples/
+outputs/models/
+outputs/environment/
+_targets/
+outputs/upgrade_evaluation/

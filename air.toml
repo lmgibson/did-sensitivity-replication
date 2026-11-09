@@ -1,0 +1,5 @@
+[format]
+line-width = 80
+indent-width = 2
+# Archived sources and generated artifacts retain their original contents.
+exclude = ["/staging/", "/data/", "/outputs/", "/.agents/", "/tests/fixtures/", "/_targets/", "/renv/"]

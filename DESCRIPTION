@@ -1,0 +1,25 @@
+Package: didsensitivity
+Title: Replication of Difference-in-Difference Sensitivity Analysis
+Version: 0.1.0
+Authors@R: person("Landon", "Gibson", role = c("aut", "cre"))
+Description: Research workflow reproducing the spending and enrollment examples
+    in Gibson and Zimmerman (2021), with sensitivity analysis based on
+    Cinelli and Hazlett (2020). This is an analysis project, not an installable
+    R package.
+Depends: R (== 4.5.0)
+Imports:
+    dplyr,
+    readr,
+    readxl,
+    stringr,
+    plm,
+    sensemakr,
+    lmtest,
+    sandwich,
+    targets,
+    visNetwork,
+    htmlwidgets
+Suggests:
+    languageserver,
+    renv
+Encoding: UTF-8

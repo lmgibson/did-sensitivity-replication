@@ -1,0 +1,32 @@
+{
+  "languages": {
+    "R": {
+      "formatter": {
+        "external": {
+          "command": "air",
+          "arguments": [
+            "format",
+            "--stdin-file-path",
+            "{buffer_path}"
+          ]
+        }
+      },
+      "use_on_type_format": false,
+      "language_servers": [
+        "jarl",
+        "r_language_server"
+      ]
+    }
+  },
+  "lsp": {
+    "r_language_server": {
+      "settings": {
+        "r": {
+          "lsp": {
+            "diagnostics": false
+          }
+        }
+      }
+    }
+  }
+}

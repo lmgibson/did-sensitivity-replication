@@ -1,0 +1,203 @@
+Warning messages:
+1: package ‘dplyr’ was built under R version 4.5.2 
+2: package ‘readr’ was built under R version 4.5.2 
+3: package ‘readxl’ was built under R version 4.5.2 
+4: package ‘zoo’ was built under R version 4.5.2 
+5: package ‘sandwich’ was built under R version 4.5.2 
+New names:
+• `` -> `...1`
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+New names:
+• `` -> `...1`
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+
+TABLE 1 
+      model    estimate    effect    p_value       RV       EV   RV_ols
+Post      1 -0.07617211 -7.334329 0.03840672 12.51712 1.759450 14.96489
+Post1     2 -0.05757276 -5.594680 0.04269523 12.51429 1.758610 12.50207
+Post2     3 -0.06781287 -6.556468 0.01692534 14.59608 2.433849 14.92433
+Post3     4 -0.06810621 -6.583875 0.01471835 14.91591 2.548241 14.96941
+        EV_ols   n dof     se_ols se_cluster
+Post  2.566014 300 242 0.03017269 0.03658855
+Post1 1.754996 288 232 0.02828070 0.02825111
+Post2 2.551293 288 232 0.02751541 0.02818843
+Post3 2.567660 288 231 0.02760346 0.02771119
+
+TABLE 2 
+  bound_label      r2dz.x   r2yz.dx treatment adjusted_estimate adjusted_se
+1      2x lfp 0.006423772 0.1258784      Post      -0.056137710  0.02594723
+2      4x lfp 0.012847543 0.2517673      Post      -0.044090955  0.02408418
+3      6x lfp 0.019271315 0.3776669      Post      -0.031964784  0.02203650
+4      8x lfp 0.025695086 0.5035774      Post      -0.019758014  0.01974622
+5     10x lfp 0.032118858 0.6294989      Post      -0.007469436  0.01711549
+6     12x lfp 0.038542629 0.7554317      Post       0.004902188  0.01395213
+  adjusted_t adjusted_lower_CI adjusted_upper_CI     effect p_one_sided
+1 -2.1635341       -0.10726118      -0.005014236 -5.4591065  0.01576530
+2 -1.8307021       -0.09154369       0.003361780 -4.3133078  0.03421946
+3 -1.4505382       -0.07538301       0.011453437 -3.1459310  0.07413544
+4 -1.0005974       -0.05866372       0.019147697 -1.9564104  0.15903652
+5 -0.4364138       -0.04119186       0.026252985 -0.7441609  0.33147296
+6  0.3513575       -0.02258752       0.032391892  0.4914223  0.36282089
+  p_two_sided
+1  0.03153059
+2  0.06843892
+3  0.14827089
+4  0.31807303
+5  0.66294591
+6  0.72564178
+
+TABLE 3 
+         model   effect      p_value       RV       EV   n dof
+fd.Post      1 7.636087 1.154933e-27 55.33866 40.67698 230 228
+fd.Post1     2 7.685205 2.725687e-27 55.11893 40.36692 230 227
+fd.Post2     3 7.694920 3.198352e-24 57.45284 43.68751 184 180
+
+TABLE 4 
+          bound_label      r2dz.x    r2yz.dx treatment adjusted_estimate
+1  1x fd.inst6017_nom 0.006368297 0.08355058   fd.Post          7.492757
+2  2x fd.inst6017_nom 0.012736594 0.16711478   fd.Post          7.289275
+3  5x fd.inst6017_nom 0.031841484 0.41789154   fd.Post          6.670724
+4 10x fd.inst6017_nom 0.063682969 0.83614831   fd.Post          5.611534
+  adjusted_se adjusted_t adjusted_lower_CI adjusted_upper_CI
+1   0.6271087   11.94810          6.255326          8.730187
+2   0.5997598   12.15366          6.105811          8.472740
+3   0.5063258   13.17477          5.671626          7.669821
+4   0.2731589   20.54311          5.072528          6.150539
+
+MATCHES AT PUBLISHED PRECISION
+  table   match
+1     1 16 / 16
+2     2  2 / 24
+3     3 11 / 12
+4     4 12 / 12
+Integrity, sample-size, and independent FD estimator checks passed.
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+
+TABLE 1 
+      model    estimate    effect    p_value       RV       EV   RV_ols
+Post      1 -0.07617211 -7.334329 0.03840672 12.51712 1.759450 14.96489
+Post1     2 -0.05757276 -5.594680 0.04269523 12.51429 1.758610 12.50207
+Post2     3 -0.06781287 -6.556468 0.01692534 14.59608 2.433849 14.92433
+Post3     4 -0.06810621 -6.583875 0.01471835 14.91591 2.548241 14.96941
+        EV_ols   n dof     se_ols se_cluster
+Post  2.566014 300 242 0.03017269 0.03658855
+Post1 1.754996 288 232 0.02828070 0.02825111
+Post2 2.551293 288 232 0.02751541 0.02818843
+Post3 2.567660 288 231 0.02760346 0.02771119
+
+TABLE 2 
+  bound_label      r2dz.x   r2yz.dx treatment adjusted_estimate adjusted_se
+1      2x lfp 0.006423772 0.1258784      Post      -0.056137710  0.02594723
+2      4x lfp 0.012847543 0.2517673      Post      -0.044090955  0.02408418
+3      6x lfp 0.019271315 0.3776669      Post      -0.031964784  0.02203650
+4      8x lfp 0.025695086 0.5035774      Post      -0.019758014  0.01974622
+5     10x lfp 0.032118858 0.6294989      Post      -0.007469436  0.01711549
+6     12x lfp 0.038542629 0.7554317      Post       0.004902188  0.01395213
+  adjusted_t adjusted_lower_CI adjusted_upper_CI     effect p_one_sided
+1 -2.1635341       -0.10726118      -0.005014236 -5.4591065  0.01576530
+2 -1.8307021       -0.09154369       0.003361780 -4.3133078  0.03421946
+3 -1.4505382       -0.07538301       0.011453437 -3.1459310  0.07413544
+4 -1.0005974       -0.05866372       0.019147697 -1.9564104  0.15903652
+5 -0.4364138       -0.04119186       0.026252985 -0.7441609  0.33147296
+6  0.3513575       -0.02258752       0.032391892  0.4914223  0.36282089
+  p_two_sided
+1  0.03153059
+2  0.06843892
+3  0.14827089
+4  0.31807303
+5  0.66294591
+6  0.72564178
+
+TABLE 3 
+         model   effect      p_value       RV       EV   n dof
+fd.Post      1 7.636087 1.154933e-27 55.33866 40.67698 230 228
+fd.Post1     2 7.685205 2.725687e-27 55.11893 40.36692 230 227
+fd.Post2     3 7.694920 3.198352e-24 57.45284 43.68751 184 180
+
+TABLE 4 
+          bound_label      r2dz.x    r2yz.dx treatment adjusted_estimate
+1  1x fd.inst6017_nom 0.006368297 0.08355058   fd.Post          7.492757
+2  2x fd.inst6017_nom 0.012736594 0.16711478   fd.Post          7.289275
+3  5x fd.inst6017_nom 0.031841484 0.41789154   fd.Post          6.670724
+4 10x fd.inst6017_nom 0.063682969 0.83614831   fd.Post          5.611534
+  adjusted_se adjusted_t adjusted_lower_CI adjusted_upper_CI
+1   0.6271087   11.94810          6.255326          8.730187
+2   0.5997598   12.15366          6.105811          8.472740
+3   0.5063258   13.17477          5.671626          7.669821
+4   0.2731589   20.54311          5.072528          6.150539
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Warning messages:
+1: package ‘targets’ was built under R version 4.5.2 
+2: package ‘dplyr’ was built under R version 4.5.2 
+3: package ‘readr’ was built under R version 4.5.2 
+4: package ‘readxl’ was built under R version 4.5.2 
+5: package ‘zoo’ was built under R version 4.5.2 
+6: package ‘sandwich’ was built under R version 4.5.2 
+Workflow checks passed: exact baseline, cached second run, input/reference invalidation, and missing-output recovery.
